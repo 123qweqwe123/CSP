@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmbx.csp.data.conf.mapper.CspConfCourseMapper">
+  <resultMap id="BaseResultMap" type="com.lmbx.csp.data.conf.domain.CspConfCourse">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CONF_ID" jdbcType="VARCHAR" property="confId" />
+    <result column="IS_CHECKIN" jdbcType="DECIMAL" property="isCheckin" />
+    <result column="CHECKIN_TYPE" jdbcType="VARCHAR" property="checkinType" />
+    <result column="START_TIME" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="LECTURER_NAME" jdbcType="VARCHAR" property="lecturerName" />
+    <result column="TOPIC" jdbcType="VARCHAR" property="topic" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="PLACE_ID" jdbcType="VARCHAR" property="placeId" />
+    <result column="ROOM_ID" jdbcType="VARCHAR" property="roomId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, CONF_ID, IS_CHECKIN, CHECKIN_TYPE, START_TIME, END_TIME, LECTURER_NAME, TOPIC, 
+    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, REMARK, PLACE_ID, ROOM_ID, NAME
+  </sql>
+  <select id="selectByExample" parameterType="com.lmbx.csp.data.conf.domain.CspConfCourseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CSP_CONF_COURSE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSP_CONF_COURSE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CSP_CONF_COURSE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lmbx.csp.data.conf.domain.CspConfCourseExample">
+    delete from CSP_CONF_COURSE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lmbx.csp.data.conf.domain.CspConfCourse">
+    insert into CSP_CONF_COURSE (ID, CONF_ID, IS_CHECKIN, 
+      CHECKIN_TYPE, START_TIME, END_TIME, 
+      LECTURER_NAME, TOPIC, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+      REMARK, PLACE_ID, ROOM_ID, 
+      NAME)
+    values (#{id,jdbcType=VARCHAR}, #{confId,jdbcType=VARCHAR}, #{isCheckin,jdbcType=DECIMAL}, 
+      #{checkinType,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{lecturerName,jdbcType=VARCHAR}, #{topic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{placeId,jdbcType=VARCHAR}, #{roomId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lmbx.csp.data.conf.domain.CspConfCourse">
+    insert into CSP_CONF_COURSE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="confId != null">
+        CONF_ID,
+      </if>
+      <if test="isCheckin != null">
+        IS_CHECKIN,
+      </if>
+      <if test="checkinType != null">
+        CHECKIN_TYPE,
+      </if>
+      <if test="startTime != null">
+        START_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+      <if test="lecturerName != null">
+        LECTURER_NAME,
+      </if>
+      <if test="topic != null">
+        TOPIC,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="placeId != null">
+        PLACE_ID,
+      </if>
+      <if test="roomId != null">
+        ROOM_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="confId != null">
+        #{confId,jdbcType=VARCHAR},
+      </if>
+      <if test="isCheckin != null">
+        #{isCheckin,jdbcType=DECIMAL},
+      </if>
+      <if test="checkinType != null">
+        #{checkinType,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lecturerName != null">
+        #{lecturerName,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null">
+        #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="placeId != null">
+        #{placeId,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null">
+        #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lmbx.csp.data.conf.domain.CspConfCourseExample" resultType="java.lang.Long">
+    select count(*) from CSP_CONF_COURSE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update CSP_CONF_COURSE
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confId != null">
+        CONF_ID = #{record.confId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isCheckin != null">
+        IS_CHECKIN = #{record.isCheckin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.checkinType != null">
+        CHECKIN_TYPE = #{record.checkinType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lecturerName != null">
+        LECTURER_NAME = #{record.lecturerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topic != null">
+        TOPIC = #{record.topic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.placeId != null">
+        PLACE_ID = #{record.placeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomId != null">
+        ROOM_ID = #{record.roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update CSP_CONF_COURSE
+    set ID = #{record.id,jdbcType=VARCHAR},
+      CONF_ID = #{record.confId,jdbcType=VARCHAR},
+      IS_CHECKIN = #{record.isCheckin,jdbcType=DECIMAL},
+      CHECKIN_TYPE = #{record.checkinType,jdbcType=VARCHAR},
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      LECTURER_NAME = #{record.lecturerName,jdbcType=VARCHAR},
+      TOPIC = #{record.topic,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      PLACE_ID = #{record.placeId,jdbcType=VARCHAR},
+      ROOM_ID = #{record.roomId,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lmbx.csp.data.conf.domain.CspConfCourse">
+    update CSP_CONF_COURSE
+    <set>
+      <if test="confId != null">
+        CONF_ID = #{confId,jdbcType=VARCHAR},
+      </if>
+      <if test="isCheckin != null">
+        IS_CHECKIN = #{isCheckin,jdbcType=DECIMAL},
+      </if>
+      <if test="checkinType != null">
+        CHECKIN_TYPE = #{checkinType,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lecturerName != null">
+        LECTURER_NAME = #{lecturerName,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null">
+        TOPIC = #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="placeId != null">
+        PLACE_ID = #{placeId,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null">
+        ROOM_ID = #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lmbx.csp.data.conf.domain.CspConfCourse">
+    update CSP_CONF_COURSE
+    set CONF_ID = #{confId,jdbcType=VARCHAR},
+      IS_CHECKIN = #{isCheckin,jdbcType=DECIMAL},
+      CHECKIN_TYPE = #{checkinType,jdbcType=VARCHAR},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      LECTURER_NAME = #{lecturerName,jdbcType=VARCHAR},
+      TOPIC = #{topic,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      PLACE_ID = #{placeId,jdbcType=VARCHAR},
+      ROOM_ID = #{roomId,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

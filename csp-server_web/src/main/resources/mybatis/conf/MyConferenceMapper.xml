@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lmbx.csp.web.conf.mapper.MyConferenceMapper">
+
+  <resultMap id="ConfConferenceMap" type="com.lmbx.csp.web.conf.vo.CspConferenceVO" extends="com.lmbx.csp.data.conf.mapper.CspConferenceMapper.BaseResultMap" />
+
+  <select id="selectConferenceByFilter" resultMap="ConfConferenceMap"
+          parameterType="com.lmbx.csp.web.conf.filter.ConferenceFilter">
+    select
+    a.*, b.PLACE_NAME placeName
+    from
+    CSP_CONFERENCE a
+    left join CSP_CONF_PLACE b
+    on a.PLACE=b.id
+    where 1=1
+    <if test="id != null">
+      and a.ID=#{id}
+    </if>
+    <if test="startDate != null">
+      and a.END_TIME >= #{startDate}
+      and a.START_TIME &lt;= #{startDate}
+    </if>
+    order by a.CREATE_TIME desc
+  </select>
+
+  <select id="selectMaxConfNo" resultType="string">
+    select conf_no
+    from (select * from csp_conference order by create_time desc)
+    where rownum = 1
+  </select>
+
+  <resultMap id="ConfPersonResultMap" type="com.lmbx.csp.web.conf.vo.CspMainPersonVO" extends="com.lmbx.csp.data.main.mapper.CspMainPersonMapper.BaseResultMap" />
+
+  <select id="selectConfPerson" parameterType="com.lmbx.csp.web.conf.filter.ConferencePersonFilter" resultMap="ConfPersonResultMap">
+    select a.type personType, a.id personId, p.*
+      from (select worker_id personId, '3' type, id
+        from csp_conf_worker
+        where conf_id = #{confId}
+      union all
+      select conf_lecturer_id personId, '2' type, id
+        from csp_conf_lecturer
+      where conf_id = #{confId}
+      union all
+      select visitor_id personId, '1' type, id
+        from csp_conf_visitor
+      where conf_id = #{confId}) a
+    left join csp_main_person p
+    on a.personId = p.id
+    order by a.type desc, p.CREATE_TIME, a.personId desc
+  </select>
+
+  <resultMap id="selectConfCheckin" type="com.lmbx.csp.web.conf.vo.CspConfCheckinVO" extends="com.lmbx.csp.data.conf.mapper.CspConfCheckinMapper.BaseResultMap" />
+
+  <select id="selectConfCheckinByFilter" resultMap="selectConfCheckin" parameterType="com.lmbx.csp.web.conf.filter.ConferenceCheckinFilter">
+  select c.*, c1.v1, c2.v2, c3.v3
+  from csp_conf_checkin c
+  left join (select checkin_id, count(*) v1
+               from csp_conf_checkin_person p
+              where person_type = 1
+              group by checkin_id) c1
+    on c.id = c1.checkin_id
+  left join (select checkin_id, count(*) v2
+               from csp_conf_checkin_person p
+              where person_type = 2
+              group by checkin_id) c2
+    on c.id = c2.checkin_id
+  left join (select checkin_id, count(*) v3
+               from csp_conf_checkin_worker
+              group by checkin_id) c3
+    on c.id = c3.checkin_id
+    where 1=1
+    <if test="confId != null">
+      and c.CONF_ID=#{confId}
+    </if>
+    order by c.START_TIME desc
+  </select>
+
+  <select id="selectPlaceByFilter" resultMap="com.lmbx.csp.data.conf.mapper.CspConfPlaceMapper.BaseResultMap"
+          parameterType="com.lmbx.csp.web.conf.filter.ConferencePlaceFilter">
+    select
+    <include refid="com.lmbx.csp.data.conf.mapper.CspConfPlaceMapper.Base_Column_List" />
+    from CSP_CONF_PLACE
+  </select>
+
+  <select id="selectMainPersonByFilter" resultMap="com.lmbx.csp.data.main.mapper.CspMainPersonMapper.BaseResultMap" parameterType="com.lmbx.csp.web.conf.filter.ConferencePersonFilter">
+    select
+    <include refid="com.lmbx.csp.data.main.mapper.CspMainPersonMapper.Base_Column_List" />
+    from
+    CSP_MAIN_PERSON
+    where
+    1=1
+    <if test="type == 1">
+    and (NAME like '%${str}%' or ID_NUMBER like '%${str}%')
+    </if>
+  </select>
+</mapper>

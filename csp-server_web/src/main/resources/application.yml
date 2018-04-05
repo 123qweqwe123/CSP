@@ -1,0 +1,88 @@
+---
+spring:
+  profiles:
+    active: @activatedProperties@
+  datasource:
+    driver-class-name:  oracle.jdbc.OracleDriver
+    druid:
+      filters: wall,stat,slf4j
+      poolPreparedStatements: true
+      stat-view-servlet:
+        login-username: csp
+        login-password: CSP@druid
+  cache:
+    caffeine:
+      spec: maximumSize=3000,expireAfterAccess=1d
+    cache-names: param
+  http:
+    multipart:
+      max-file-size: 20mb
+      max-request-size: 20mb
+  mvc:
+    static-path-pattern: /static/**
+  jmx:
+    default-domain: cspWeb
+server:
+  error:
+      whitelabel:
+        enabled: false
+  port: 7000
+  session:
+    timeout: 1800
+mybatis:
+  mapper-locations: classpath*:/mybatis/**/*Mapper.xml
+pagehelper:
+  support-methods-arguments: true
+  params: pageNum=page
+
+
+--- # 开发配置定义
+
+spring:
+  profiles: development
+  datasource:
+    url:  jdbc:oracle:thin:@10.24.10.224:1521:bdcor5
+    username: csp
+    password: develop
+server:
+  port: 7000
+third-service:
+  fastdfs:
+    tracker-servers: 10.24.10.225:22122
+  sms:
+    msg-server-ip: 10.24.10.191
+    msg-server-port: 3212
+    msg-reply-ip: 10.24.10.11
+    msg-reply-port: 12302
+    msg-send-status-ip: 10.24.10.11
+    msg-send-status-port: 12303
+    msg-sign: 高危筛查项目组
+    msg-server-sub-code: 03
+    project-id: 010
+  mail:
+    server-request-url: http://10.24.10.225:8080/mail-service/service/mail/send
+
+--- # 生产配置定义
+
+spring:
+  profiles: production
+  datasource:
+    url: jdbc:oracle:thin:@10.24.10.34:1521:jtbiobank
+    username: csp
+    password: ncrc2017
+server:
+  port: 7000
+third-service:
+  fastdfs:
+    tracker-servers: 10.24.10.12:22122
+  sms:
+    msg-server-ip: 172.31.201.181
+    msg-server-port: 3212
+    msg-reply-ip: 172.31.31.63
+    msg-reply-port: 12302
+    msg-send-status-ip: 172.31.31.63
+    msg-send-status-port: 12303
+    msg-sign: 高危筛查项目组
+    msg-server-sub-code: 03
+  mail:
+    server-request-url: http://10.24.10.17:8080/mail-service/service/mail/send

@@ -1,0 +1,76 @@
+---
+spring:
+  profiles:
+    active: test
+  datasource:
+    driver-class-name:  oracle.jdbc.OracleDriver
+    druid:
+      filters: wall,stat,slf4j
+      poolPreparedStatements: true
+      stat-view-servlet:
+        login-username: csp
+        login-password: CSP@druid
+  cache:
+    caffeine:
+      spec: maximumSize=3000,expireAfterAccess=1d
+    cache-names: param
+  http:
+    multipart:
+      max-file-size: 20mb
+      max-request-size: 20mb
+  mvc:
+    static-path-pattern: /static/**
+server:
+  error:
+      whitelabel:
+        enabled: false
+  port: 7000
+  session:
+    timeout: 1800
+  context-path: /cspInterf
+mybatis:
+  mapper-locations: classpath*:/mybatis/**/*Mapper.xml
+pagehelper:
+  support-methods-arguments: true
+  params: pageNum=page
+
+ftpIp: localhost
+
+--- # 开发配置定义
+spring:
+  profiles: dev
+  datasource:
+    url:  jdbc:oracle:thin:@10.24.10.224:1521:bdcor5
+    username: csp
+    password: develop
+third-service:
+  fastdfs:
+    tracker-servers: 10.24.10.225:22122
+zipFile: 
+  basePath: c://test//
+  
+--- # 测试环境
+spring:
+  profiles: test
+  datasource:
+    url:  jdbc:oracle:thin:@10.24.10.224:1521:bdcor5
+    username: csp
+    password: develop
+third-service:
+  fastdfs:
+    tracker-servers: 10.24.10.225:22122
+zipFile: 
+  basePath: /var/csp/
+  
+--- # 生产配置定义
+spring:
+  profiles: pro
+  datasource:
+    url: jdbc:oracle:thin:@10.24.10.34:1521:jtbiobank
+    username: csp
+    password: ncrc2017
+third-service:
+  fastdfs:
+    tracker-servers: 10.24.10.12:22122    
+zipFile: 
+  basePath: /var/csp/

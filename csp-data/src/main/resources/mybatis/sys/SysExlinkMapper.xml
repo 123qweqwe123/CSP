@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmbx.csp.data.sys.mapper.SysExlinkMapper">
+  <resultMap id="BaseResultMap" type="com.lmbx.csp.data.sys.domain.SysExlink">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+    <result column="WIDTH" jdbcType="VARCHAR" property="width" />
+    <result column="LINK_TYPE" jdbcType="DECIMAL" property="linkType" />
+    <result column="HEIGHT" jdbcType="VARCHAR" property="height" />
+    <result column="DISPLAY" jdbcType="VARCHAR" property="display" />
+    <result column="POSITION" jdbcType="VARCHAR" property="position" />
+    <result column="ALLOWFULLSCREEN" jdbcType="DECIMAL" property="allowfullscreen" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, URL, WIDTH, LINK_TYPE, HEIGHT, DISPLAY, POSITION, ALLOWFULLSCREEN, CREATE_TIME, 
+    CREATE_BY, UPDATE_TIME, UPDATE_BY, REMARK
+  </sql>
+  <select id="selectByExample" parameterType="com.lmbx.csp.data.sys.domain.SysExlinkExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CSP.SYS_EXLINK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSP.SYS_EXLINK
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CSP.SYS_EXLINK
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lmbx.csp.data.sys.domain.SysExlinkExample">
+    delete from CSP.SYS_EXLINK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lmbx.csp.data.sys.domain.SysExlink">
+    insert into CSP.SYS_EXLINK (ID, URL, WIDTH, 
+      LINK_TYPE, HEIGHT, DISPLAY, 
+      POSITION, ALLOWFULLSCREEN, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+      REMARK)
+    values (#{id,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, 
+      #{linkType,jdbcType=DECIMAL}, #{height,jdbcType=VARCHAR}, #{display,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{allowfullscreen,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lmbx.csp.data.sys.domain.SysExlink">
+    insert into CSP.SYS_EXLINK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="url != null">
+        URL,
+      </if>
+      <if test="width != null">
+        WIDTH,
+      </if>
+      <if test="linkType != null">
+        LINK_TYPE,
+      </if>
+      <if test="height != null">
+        HEIGHT,
+      </if>
+      <if test="display != null">
+        DISPLAY,
+      </if>
+      <if test="position != null">
+        POSITION,
+      </if>
+      <if test="allowfullscreen != null">
+        ALLOWFULLSCREEN,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="linkType != null">
+        #{linkType,jdbcType=DECIMAL},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null">
+        #{display,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="allowfullscreen != null">
+        #{allowfullscreen,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lmbx.csp.data.sys.domain.SysExlinkExample" resultType="java.lang.Long">
+    select count(*) from CSP.SYS_EXLINK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update CSP.SYS_EXLINK
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        URL = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.width != null">
+        WIDTH = #{record.width,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkType != null">
+        LINK_TYPE = #{record.linkType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.height != null">
+        HEIGHT = #{record.height,jdbcType=VARCHAR},
+      </if>
+      <if test="record.display != null">
+        DISPLAY = #{record.display,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null">
+        POSITION = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allowfullscreen != null">
+        ALLOWFULLSCREEN = #{record.allowfullscreen,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update CSP.SYS_EXLINK
+    set ID = #{record.id,jdbcType=VARCHAR},
+      URL = #{record.url,jdbcType=VARCHAR},
+      WIDTH = #{record.width,jdbcType=VARCHAR},
+      LINK_TYPE = #{record.linkType,jdbcType=DECIMAL},
+      HEIGHT = #{record.height,jdbcType=VARCHAR},
+      DISPLAY = #{record.display,jdbcType=VARCHAR},
+      POSITION = #{record.position,jdbcType=VARCHAR},
+      ALLOWFULLSCREEN = #{record.allowfullscreen,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lmbx.csp.data.sys.domain.SysExlink">
+    update CSP.SYS_EXLINK
+    <set>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        WIDTH = #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="linkType != null">
+        LINK_TYPE = #{linkType,jdbcType=DECIMAL},
+      </if>
+      <if test="height != null">
+        HEIGHT = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null">
+        DISPLAY = #{display,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        POSITION = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="allowfullscreen != null">
+        ALLOWFULLSCREEN = #{allowfullscreen,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lmbx.csp.data.sys.domain.SysExlink">
+    update CSP.SYS_EXLINK
+    set URL = #{url,jdbcType=VARCHAR},
+      WIDTH = #{width,jdbcType=VARCHAR},
+      LINK_TYPE = #{linkType,jdbcType=DECIMAL},
+      HEIGHT = #{height,jdbcType=VARCHAR},
+      DISPLAY = #{display,jdbcType=VARCHAR},
+      POSITION = #{position,jdbcType=VARCHAR},
+      ALLOWFULLSCREEN = #{allowfullscreen,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

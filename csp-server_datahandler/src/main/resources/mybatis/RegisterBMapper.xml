@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmbx.csp.handler.data.mapper.RegisterBMapper">
+  <insert id="insertBatch" parameterType="com.lmbx.csp.data.conf.domain.CspConfRegister">
+    insert into CSP_CONF_REGISTER_B (ID, PERSON_ID, PERSON_TYPE,
+      CONF_ID, CONF_PLACE_ID, REMARK, 
+      REGISTER_BY, REGISTER_TIME, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+      SRC_ID, IS_SCANCARD, TERMINAL_ID, BACKUP_TIME)
+    <foreach collection="list" item="item" index="index" separator="UNION ALL">
+      SELECT #{item.id,jdbcType=VARCHAR}, #{item.personId,jdbcType=VARCHAR}, #{item.personType,jdbcType=VARCHAR},
+      #{item.confId,jdbcType=VARCHAR}, #{item.confPlaceId,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR},
+      #{item.registerBy,jdbcType=VARCHAR}, #{item.registerTime,jdbcType=TIMESTAMP}, #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.createBy,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=VARCHAR},
+      #{item.srcId,jdbcType=VARCHAR}, #{item.isScancard,jdbcType=VARCHAR}, #{item.terminalId,jdbcType=VARCHAR}, sysdate FROM DUAL
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmbx.csp.dispatch.mapper.MyCspConfCheckinWorkerMapper">
+  <select id="selectCheckInWorkersByConfNo" parameterType="java.lang.String" resultMap="com.lmbx.csp.data.conf.mapper.CspConfCheckinWorkerMapper.BaseResultMap">
+    select 
+    <include refid="com.lmbx.csp.data.conf.mapper.CspConfCheckinWorkerMapper.Base_Column_List" />
+    from CSP.CSP_CONF_CHECKIN_WORKER
+     where CHECKIN_ID in(
+   select DISTINCT id from CSP_CONF_CHECKIN 
+   where CONF_ID in  
+   (select DISTINCT id from CSP_CONFERENCE 
+   where CONF_NO =  #{confNo,jdbcType=VARCHAR})
+  )          
+  </select>
+</mapper>

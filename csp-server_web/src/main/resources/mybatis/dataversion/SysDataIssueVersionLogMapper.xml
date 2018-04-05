@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lmbx.csp.web.dataversion.mapper.MySysDataIssueVersionLogMapper">
+
+  <select id="selectCurrentDataVersion" resultMap="com.lmbx.csp.data.sys.mapper.SysDataIssueVersionLogMapper.BaseResultMap" >
+     SELECT * FROM SYS_DATA_ISSUE_VERSION_LOG t
+	 	where VALUE3=(select max(to_number(VALUE3)) from SYS_DATA_ISSUE_VERSION_LOG where DICT_TYPE = t.DICT_TYPE) order by t.DICT_TYPE desc
+  </select>
+  
+  <select id="selectDataVersionLog" resultMap="com.lmbx.csp.data.sys.mapper.SysDataIssueVersionLogMapper.BaseResultMap"
+  		parameterType="com.lmbx.csp.data.sys.domain.SysDataIssueVersionLog" >
+    select * from SYS_DATA_ISSUE_VERSION_LOG where DICT_TYPE = #{dictType}
+    	and id !=#{id} order by to_number(VALUE3) desc
+  </select>
+</mapper>

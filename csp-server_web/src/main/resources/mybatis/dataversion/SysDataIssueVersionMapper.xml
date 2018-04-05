@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lmbx.csp.web.dataversion.mapper.MySysDataIssueVersionMapper">
+
+  <select id="selectByDataVersionFilter" resultMap="com.lmbx.csp.data.sys.mapper.SysDataIssueVersionMapper.BaseResultMap"
+          parameterType="com.lmbx.csp.web.dataversion.filter.DataVersionFilter">
+    select
+    <include refid="com.lmbx.csp.data.sys.mapper.SysDataIssueVersionMapper.Base_Column_List" />
+    from
+    Sys_Data_Issue_Version
+    where 1=1
+    <if test="lccCode != null">
+		and LCC_CODE LIKE '%'||#{lccCode}||'%'
+    </if>
+    
+    <if test="dictType != null">
+		and DICT_TYPE = #{dictType}
+    </if>
+    order by LCC_CODE desc
+  </select>
+  
+  <update id="updateDictVersion" parameterType="com.lmbx.csp.data.sys.domain.SysDataIssueVersion">
+    update Sys_Data_Issue_Version
+    set DICT_VERSION = #{dictVersion} , FILE_ID = #{fileId},VALUE1 = #{value1},VALUE2 = #{value2},VALUE3 = #{value3},VALUE4 = #{value4}    
+    where 1=1
+    <if test="id != null">
+		and id = #{id}
+    </if>
+    
+    <if test="dictType != null">
+		and dict_Type = #{dictType}
+    </if>
+     
+  </update>
+</mapper>

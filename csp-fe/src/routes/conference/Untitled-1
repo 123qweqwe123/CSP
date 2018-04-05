@@ -1,0 +1,30 @@
+✅ 会场维护页面
+✅ 创建会议的时候，设置会场
+->预计10分钟
+✅ 会议添加课程，课程选择会场和房间号，设置讲师（先自己录入）
+-> 默认只显示所有会场
+->会议右键点击添加课程，课程右键可以修改和删除
+✅ 课程有开始和结束时间，主题，讲师，附件
+✅ 创建事件勾选签到（类型），签到人员类型
+默认开始时间往前推半个小时
+
+✅ 必须选择会议才能跳转页面
+✅ 会议后面放日程
+✅ 会议状态 会议准备期（创建到开始）-进行（开始到结束）-收尾（结束之后）-完成（手动确认）
+
+ID
+NAME
+CONF_ID
+IS_CHECKIN
+CHECKIN_TYPE
+START_TIME
+END_TIME
+LECTURER_NAME
+TOPIC
+CREATE_TIME
+CREATE_BY
+UPDATE_TIME
+UPDATE_BY
+REMARK
+PLACE_ID
+ROOM_ID

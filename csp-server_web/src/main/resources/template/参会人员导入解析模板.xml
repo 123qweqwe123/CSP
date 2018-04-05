@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<workbook>
+  <worksheet idx="0">
+    <section startRow="0" endRow="0">
+    </section>
+    <loop startRow="1" endRow="1" items="persons" var="person" varType="com.lmbx.csp.web.conf.vo.UploadPersonVO">
+      <section startRow="1" endRow="1">
+        <mapping row="1" col="0">person.idNumber</mapping>
+        <mapping row="1" col="1">person.idTypeStr</mapping>
+        <mapping row="1" col="2">person.sameQrcode</mapping>
+        <mapping row="1" col="3">person.typeStr</mapping>
+        <mapping row="1" col="4">person.name</mapping>
+        <mapping row="1" col="5">person.genderStr</mapping>
+        <mapping row="1" col="6">person.birthday</mapping>
+        <mapping row="1" col="7">person.tel</mapping>
+        <mapping row="1" col="8">person.email</mapping>
+        <mapping row="1" col="9">person.workplace</mapping>
+        <mapping row="1" col="10">person.department</mapping>
+        <mapping row="1" col="11">person.major</mapping>
+        <mapping row="1" col="12">person.degree</mapping>
+        <mapping row="1" col="13">person.duty</mapping>
+        <mapping row="1" col="14">person.province</mapping>
+        <mapping row="1" col="15">person.city</mapping>
+        <mapping row="1" col="16">person.county</mapping>
+        <mapping row="1" col="17">person.address</mapping>
+          <mapping row="1" col="18">person.remark</mapping>
+      </section>
+      <loopbreakcondition>
+        <rowcheck offset="0">
+          <cellcheck offset="0" />
+        </rowcheck>
+      </loopbreakcondition>
+    </loop>
+  </worksheet>
+</workbook>

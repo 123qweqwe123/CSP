@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmbx.csp.web.common.mapper.AutoCompleteMapper">
+
+  <resultMap id="BaseResultMap" type="com.lmbx.csp.web.common.vo.AutoCompleteVO" />
+
+  <select id="selectComboxData" resultMap="BaseResultMap"
+          parameterType="com.lmbx.csp.web.common.qo.AutoCompleteQO">
+    select ${valueField} as value,
+      ${textField} as text
+    from ${tableName}
+    where 1 = 1
+    <if test="q != null and q != ''">
+      and UPPER(${helpCodeField}) like #{q}
+    </if>
+  </select>
+
+</mapper>

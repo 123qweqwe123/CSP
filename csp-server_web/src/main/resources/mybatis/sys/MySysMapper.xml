@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lmbx.csp.web.sys.mapper.MySysMapper">
+  <resultMap id="AccountResultMap" type="com.lmbx.csp.web.sys.vo.SysAccountVO" extends="com.lmbx.csp.data.sys.mapper.SysAccountMapper.BaseResultMap"/>
+  <select id="selectAccountByFilter" resultMap="AccountResultMap" parameterType="com.lmbx.csp.web.sys.filter.AccountFilter">
+    SELECT
+    a.*,
+    p.email,
+    p.gender,
+    p.tel telNumber,
+    ars.roleIds,
+    ars.roleNames
+    FROM SYS_ACCOUNT a
+    LEFT JOIN (
+    SELECT
+    ar.ACCOUNT_ID,
+    listagg(r.NAME, ',') WITHIN GROUP (ORDER BY r.ID) roleNames,
+    listagg(r.ID, ',') WITHIN GROUP (ORDER BY r.ID) roleIds
+    FROM SYS_ACCOUNT_ROLE ar
+    LEFT JOIN SYS_ROLE r
+    ON ar.ROLE_ID = r.ID
+    GROUP BY ar.ACCOUNT_ID
+    ) ars
+    ON a.ID = ars.ACCOUNT_ID
+    left join CSP_MAIN_PERSON p on a.user_id = p.id
+    WHERE 1=1
+    <if test="searchId !=null and searchId != ''">
+      and a.ID = #{searchId}
+    </if>
+    <if test="searchName !=null and searchName != ''">
+      and a.NAME = #{searchName}
+    </if>
+  </select>
+
+  <select id="selectRoleUsers" resultMap="com.lmbx.csp.data.sys.mapper.SysAccountMapper.BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    a.*
+    FROM SYS_ACCOUNT a LEFT JOIN (
+    SELECT *
+    FROM SYS_ACCOUNT_ROLE
+    WHERE ROLE_ID IN (
+    SELECT ID FROM SYS_ROLE WHERE 1=1
+    <if test="roleName !=null and roleName != ''">
+      and NAME = #{roleName}
+    </if>
+    )
+    ) ars
+    ON a.ID = ars.ACCOUNT_ID
+    WHERE ars.ACCOUNT_ID IS NOT NULL
+  </select>
+
+  <select id="selectLoginLogByFilter" resultType="com.lmbx.csp.data.sys.domain.SysLoginLog" parameterType="com.lmbx.csp.web.sys.filter.LoginLogFilter">
+    select
+    l.ID id,
+    l.ACCOUNT_ID accountId,
+    l.LOGIN_TIME loginTime,
+    l.LOGOUT_TIME logoutTime,
+    l.MACHINE_IP machineIp,
+    l.IS_SUCCESS isSuccess,
+    l.IS_VALID isValid,
+    l.REMARK remark,
+    a.NAME loginName
+    from SYS_LOGIN_LOG l left join SYS_ACCOUNT a on l.ACCOUNT_ID = a.ID
+    where 1=1
+    <if test="accountId != null and accountId != ''">
+      and l.ACCOUNT_ID = #{accountId, jdbcType=VARCHAR}
+    </if>
+    <if test="machineIp != null and machineIp != ''">
+      and l.MACHINE_IP = #{machineIp, jdbcType=VARCHAR}
+    </if>
+    <if test="isSuccess != null">
+      and l.IS_SUCCESS = #{isSuccess, jdbcType=SMALLINT}
+    </if>
+    <if test="isValid != null">
+      and l.IS_VALID = #{isValid, jdbcType=SMALLINT}
+    </if>
+    <if test="startLoginTime != null">
+      and trunc(l.LOGIN_TIME, 'dd') &gt;= #{startLoginTime, jdbcType=DATE}
+    </if>
+    <if test="endLoginTime != null">
+      and trunc(l.LOGIN_TIME, 'dd') &lt;= #{endLoginTime, jdbcType=DATE}
+    </if>
+    <if test="startLogoutTime != null">
+      and trunc(l.LOGOUT_TIME, 'dd') &gt;= #{startLogoutTime, jdbcType=DATE}
+    </if>
+    <if test="endLogoutTime != null">
+      and trunc(l.LOGOUT_TIME, 'dd') &lt;= #{endLogoutTime, jdbcType=DATE}
+    </if>
+    order by l.LOGIN_TIME desc
+  </select>
+
+  <select id="selectMenuByFilter" resultMap="com.lmbx.csp.data.sys.mapper.SysMenuMapper.BaseResultMap" parameterType="com.lmbx.csp.web.sys.filter.MenuFilter">
+    select
+    ID, BPID, MPID, NAME, ICON, ROUTER, PERMISSION, SEQUENCE, CREATE_DATETIME, CREATE_USER,
+    UPDATE_DATETIME, UPDATE_USER, MENU_LEVEL, HELP_CODE
+    from SYS_MENU
+  </select>
+
+  <resultMap id="RoleResultMap" type="com.lmbx.csp.web.sys.vo.SysRoleVO" extends="com.lmbx.csp.data.sys.mapper.SysRoleMapper.BaseResultMap"/>
+
+  <select id="selectRoleByFilter" resultMap="RoleResultMap" parameterType="com.lmbx.csp.web.sys.filter.RoleFilter">
+    SELECT
+    role.*,
+    rps.permissionIds,
+    rps.permissionNames
+    FROM SYS_ROLE role
+    LEFT JOIN (
+    SELECT
+    rp.ROLE_ID,
+    listagg(p.NAME, ',') WITHIN GROUP ( ORDER BY p.ID) permissionNames,
+    listagg(p.ID, ',') WITHIN GROUP ( ORDER BY p.ID) permissionIds
+    FROM SYS_ROLE_PERMISSION rp
+    LEFT JOIN SYS_PERMISSION p
+    ON rp.PERMISSIONS_ID = p.ID
+    GROUP BY rp.ROLE_ID) rps
+    ON role.ID = rps.ROLE_ID
+    WHERE 1=1
+    <if test="searchId != null and searchId != ''">
+      AND role.ID = #{searchId}
+    </if>
+    <if test="searchName !=null and searchName != ''">
+      and role.NAME = #{searchName}
+    </if>
+  </select>
+
+  <select id="selectParameterByFilter" resultMap="com.lmbx.csp.data.sys.mapper.SysParameterMapper.BaseResultMap" parameterType="com.lmbx.csp.web.sys.filter.ParameterFilter">
+    select
+    <include refid="com.lmbx.csp.data.sys.mapper.SysParameterMapper.Base_Column_List" />
+    from
+    SYS_PARAMETER
+    where 1=1
+    <if test="typeCode!=null">
+      and TYPE_CODE=#{typeCode}
+    </if>
+  </select>
+
+  <select id="selectParaTypeByFilter" resultMap="com.lmbx.csp.data.sys.mapper.SysParatypeMapper.BaseResultMap" parameterType="com.lmbx.csp.web.sys.filter.ParameterFilter">
+    select
+    <include refid="com.lmbx.csp.data.sys.mapper.SysParatypeMapper.Base_Column_List" />
+    from
+    SYS_PARATYPE
+    where 1 = 1
+    <if test="typeCode !=null and typeCode != ''">
+      and CODE = #{typeCode}
+    </if>
+    <if test="typeName !=null and typeName != ''">
+      and VALUE = #{typeName}
+    </if>
+  </select>
+
+  <select id="selectExlinkByFilter" resultMap="com.lmbx.csp.data.sys.mapper.SysExlinkMapper.BaseResultMap" parameterType="com.lmbx.csp.web.sys.filter.ExlinkFilter">
+    select
+    <include refid="com.lmbx.csp.data.sys.mapper.SysExlinkMapper.Base_Column_List" />
+    from
+    SYS_EXLINK
+    where 1=1
+    <if test="id != null">
+      and ID=#{id}
+    </if>
+  </select>
+
+</mapper>

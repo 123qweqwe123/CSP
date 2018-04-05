@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lmbx.csp.data.sys.mapper.SysDashboardComponentMapper">
+  <resultMap id="BaseResultMap" type="com.lmbx.csp.data.sys.domain.SysDashboardComponent">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="I" jdbcType="VARCHAR" property="i" />
+    <result column="X" jdbcType="DECIMAL" property="x" />
+    <result column="Y" jdbcType="DECIMAL" property="y" />
+    <result column="W" jdbcType="DECIMAL" property="w" />
+    <result column="H" jdbcType="DECIMAL" property="h" />
+    <result column="MAX_W" jdbcType="DECIMAL" property="maxW" />
+    <result column="MIN_W" jdbcType="DECIMAL" property="minW" />
+    <result column="MIN_H" jdbcType="DECIMAL" property="minH" />
+    <result column="MAX_H" jdbcType="DECIMAL" property="maxH" />
+    <result column="IS_STATIC" jdbcType="DECIMAL" property="isStatic" />
+    <result column="IS_DRAGGABLE" jdbcType="DECIMAL" property="isDraggable" />
+    <result column="IS_RESIZABLE" jdbcType="DECIMAL" property="isResizable" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, I, X, Y, W, H, MAX_W, MIN_W, MIN_H, MAX_H, IS_STATIC, IS_DRAGGABLE, IS_RESIZABLE, 
+    TITLE
+  </sql>
+  <select id="selectByExample" parameterType="com.lmbx.csp.data.sys.domain.SysDashboardComponentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from SYS_DASHBOARD_COMPONENT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_DASHBOARD_COMPONENT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYS_DASHBOARD_COMPONENT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lmbx.csp.data.sys.domain.SysDashboardComponentExample">
+    delete from SYS_DASHBOARD_COMPONENT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lmbx.csp.data.sys.domain.SysDashboardComponent">
+    insert into SYS_DASHBOARD_COMPONENT (ID, I, X, Y, 
+      W, H, MAX_W, MIN_W, 
+      MIN_H, MAX_H, IS_STATIC, 
+      IS_DRAGGABLE, IS_RESIZABLE, TITLE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{i,jdbcType=VARCHAR}, #{x,jdbcType=DECIMAL}, #{y,jdbcType=DECIMAL}, 
+      #{w,jdbcType=DECIMAL}, #{h,jdbcType=DECIMAL}, #{maxW,jdbcType=DECIMAL}, #{minW,jdbcType=DECIMAL}, 
+      #{minH,jdbcType=DECIMAL}, #{maxH,jdbcType=DECIMAL}, #{isStatic,jdbcType=DECIMAL}, 
+      #{isDraggable,jdbcType=DECIMAL}, #{isResizable,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lmbx.csp.data.sys.domain.SysDashboardComponent">
+    insert into SYS_DASHBOARD_COMPONENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="i != null">
+        I,
+      </if>
+      <if test="x != null">
+        X,
+      </if>
+      <if test="y != null">
+        Y,
+      </if>
+      <if test="w != null">
+        W,
+      </if>
+      <if test="h != null">
+        H,
+      </if>
+      <if test="maxW != null">
+        MAX_W,
+      </if>
+      <if test="minW != null">
+        MIN_W,
+      </if>
+      <if test="minH != null">
+        MIN_H,
+      </if>
+      <if test="maxH != null">
+        MAX_H,
+      </if>
+      <if test="isStatic != null">
+        IS_STATIC,
+      </if>
+      <if test="isDraggable != null">
+        IS_DRAGGABLE,
+      </if>
+      <if test="isResizable != null">
+        IS_RESIZABLE,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="i != null">
+        #{i,jdbcType=VARCHAR},
+      </if>
+      <if test="x != null">
+        #{x,jdbcType=DECIMAL},
+      </if>
+      <if test="y != null">
+        #{y,jdbcType=DECIMAL},
+      </if>
+      <if test="w != null">
+        #{w,jdbcType=DECIMAL},
+      </if>
+      <if test="h != null">
+        #{h,jdbcType=DECIMAL},
+      </if>
+      <if test="maxW != null">
+        #{maxW,jdbcType=DECIMAL},
+      </if>
+      <if test="minW != null">
+        #{minW,jdbcType=DECIMAL},
+      </if>
+      <if test="minH != null">
+        #{minH,jdbcType=DECIMAL},
+      </if>
+      <if test="maxH != null">
+        #{maxH,jdbcType=DECIMAL},
+      </if>
+      <if test="isStatic != null">
+        #{isStatic,jdbcType=DECIMAL},
+      </if>
+      <if test="isDraggable != null">
+        #{isDraggable,jdbcType=DECIMAL},
+      </if>
+      <if test="isResizable != null">
+        #{isResizable,jdbcType=DECIMAL},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lmbx.csp.data.sys.domain.SysDashboardComponentExample" resultType="java.lang.Long">
+    select count(*) from SYS_DASHBOARD_COMPONENT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update SYS_DASHBOARD_COMPONENT
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.i != null">
+        I = #{record.i,jdbcType=VARCHAR},
+      </if>
+      <if test="record.x != null">
+        X = #{record.x,jdbcType=DECIMAL},
+      </if>
+      <if test="record.y != null">
+        Y = #{record.y,jdbcType=DECIMAL},
+      </if>
+      <if test="record.w != null">
+        W = #{record.w,jdbcType=DECIMAL},
+      </if>
+      <if test="record.h != null">
+        H = #{record.h,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxW != null">
+        MAX_W = #{record.maxW,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minW != null">
+        MIN_W = #{record.minW,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minH != null">
+        MIN_H = #{record.minH,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxH != null">
+        MAX_H = #{record.maxH,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isStatic != null">
+        IS_STATIC = #{record.isStatic,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isDraggable != null">
+        IS_DRAGGABLE = #{record.isDraggable,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isResizable != null">
+        IS_RESIZABLE = #{record.isResizable,jdbcType=DECIMAL},
+      </if>
+      <if test="record.title != null">
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update SYS_DASHBOARD_COMPONENT
+    set ID = #{record.id,jdbcType=VARCHAR},
+      I = #{record.i,jdbcType=VARCHAR},
+      X = #{record.x,jdbcType=DECIMAL},
+      Y = #{record.y,jdbcType=DECIMAL},
+      W = #{record.w,jdbcType=DECIMAL},
+      H = #{record.h,jdbcType=DECIMAL},
+      MAX_W = #{record.maxW,jdbcType=DECIMAL},
+      MIN_W = #{record.minW,jdbcType=DECIMAL},
+      MIN_H = #{record.minH,jdbcType=DECIMAL},
+      MAX_H = #{record.maxH,jdbcType=DECIMAL},
+      IS_STATIC = #{record.isStatic,jdbcType=DECIMAL},
+      IS_DRAGGABLE = #{record.isDraggable,jdbcType=DECIMAL},
+      IS_RESIZABLE = #{record.isResizable,jdbcType=DECIMAL},
+      TITLE = #{record.title,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lmbx.csp.data.sys.domain.SysDashboardComponent">
+    update SYS_DASHBOARD_COMPONENT
+    <set>
+      <if test="i != null">
+        I = #{i,jdbcType=VARCHAR},
+      </if>
+      <if test="x != null">
+        X = #{x,jdbcType=DECIMAL},
+      </if>
+      <if test="y != null">
+        Y = #{y,jdbcType=DECIMAL},
+      </if>
+      <if test="w != null">
+        W = #{w,jdbcType=DECIMAL},
+      </if>
+      <if test="h != null">
+        H = #{h,jdbcType=DECIMAL},
+      </if>
+      <if test="maxW != null">
+        MAX_W = #{maxW,jdbcType=DECIMAL},
+      </if>
+      <if test="minW != null">
+        MIN_W = #{minW,jdbcType=DECIMAL},
+      </if>
+      <if test="minH != null">
+        MIN_H = #{minH,jdbcType=DECIMAL},
+      </if>
+      <if test="maxH != null">
+        MAX_H = #{maxH,jdbcType=DECIMAL},
+      </if>
+      <if test="isStatic != null">
+        IS_STATIC = #{isStatic,jdbcType=DECIMAL},
+      </if>
+      <if test="isDraggable != null">
+        IS_DRAGGABLE = #{isDraggable,jdbcType=DECIMAL},
+      </if>
+      <if test="isResizable != null">
+        IS_RESIZABLE = #{isResizable,jdbcType=DECIMAL},
+      </if>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lmbx.csp.data.sys.domain.SysDashboardComponent">
+    update SYS_DASHBOARD_COMPONENT
+    set I = #{i,jdbcType=VARCHAR},
+      X = #{x,jdbcType=DECIMAL},
+      Y = #{y,jdbcType=DECIMAL},
+      W = #{w,jdbcType=DECIMAL},
+      H = #{h,jdbcType=DECIMAL},
+      MAX_W = #{maxW,jdbcType=DECIMAL},
+      MIN_W = #{minW,jdbcType=DECIMAL},
+      MIN_H = #{minH,jdbcType=DECIMAL},
+      MAX_H = #{maxH,jdbcType=DECIMAL},
+      IS_STATIC = #{isStatic,jdbcType=DECIMAL},
+      IS_DRAGGABLE = #{isDraggable,jdbcType=DECIMAL},
+      IS_RESIZABLE = #{isResizable,jdbcType=DECIMAL},
+      TITLE = #{title,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
